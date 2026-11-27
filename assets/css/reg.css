@@ -1,0 +1,149 @@
+@font-face {
+    font-family: 'Montserrat Alternates';
+    src: url(../fonts/MontserratAlternates-Regular.ttf) format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat Alternates';
+    src: url(../fonts/MontserratAlternates-Medium.ttf) format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+* {
+    font-family: 'Montserrat Alternates', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+input::-ms-reveal,
+input::-ms-clear {
+    display: none;
+}
+
+input::-webkit-credentials-reveal-button {
+    display: none;
+}
+
+body {
+    background-color: #E8C4A4;
+    background: url(../images/reg/bg.png) no-repeat;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    align-items: center;
+}
+
+.user-form {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 40px;
+    background-color: #FDF8F8;
+    padding: 40px 50px;
+    border-radius: 30px;
+    box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 0.25);
+}
+
+.form-header {
+    text-align: center;
+    font-size: 60px;
+    font-weight: 500;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.form-group {
+    text-align: center;
+    position: relative;
+    width: 100%;
+}
+
+.form-group input {
+    font-size: 24px;
+    width: 100%;
+    padding: 18px 30px;
+    border-radius: 30px;
+    border: none;
+    box-shadow: inset 2px 3px 0px 0px rgba(0, 0, 0, 0.25);
+}
+
+.form-group input:focus {
+    outline: none;
+    border: none;
+}
+
+.form-group input::placeholder {
+    color: #8C8C8C;
+}
+
+.reg-link, .auth-link {
+    color: rgb(140, 140, 140);
+}
+
+.reg-link a, .auth-link a {
+    color: rgb(140, 140, 140);
+}
+
+.reg-link a:hover, .auth-link a:hover {
+    color: rgb(70, 70, 70);
+}
+
+.user-form .submit-btn {
+    font-size: 40px;
+    font-weight: 500;
+    color: #FDF8F8;
+    text-shadow: 
+    0.5px 0.5px 0px #FA842F,
+    -0.5px -0.5px 0px rgba(0, 0, 0, 0.25);
+    width: 100%;
+    background-color: #D2784A;
+    border: none;
+    border-radius: 30px;
+    padding: 10px 35px;
+    box-shadow: 
+    2px 3px 0px 0px rgba(0, 0, 0, 0.25),
+    inset -2px -4px 0px 0px #BD692D,
+    inset 2px 3px 0px 0px #E2A97F;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.user-form .submit-btn:active {
+    color: #f7f2f2;
+    font-size: 39px;
+    background-color: #cc7346;
+    box-shadow: 
+    inset 4px 5px 0px 0px rgba(0, 0, 0, 0.15),
+    inset -2px -3px 0px 0px rgb(189, 105, 45);
+}
+
+.password-control {
+    position: absolute;
+    right: 30px;
+    top: 52%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    background: url(../images/reg/pass-hide.svg) 0 0 no-repeat;
+    border: none;
+    cursor: pointer;
+}
+
+.password-control.view {
+    background: url(../images/reg/pass-show.svg) 0 0 no-repeat;
+    cursor: pointer;
+}

@@ -1,0 +1,25 @@
+# Секреты и локальные переменные окружения
+.env
+.env.*
+!.env.example
+assets/php/config.*
+assets/php/config
+
+# Зависимости и сборки
+node_modules/
+dist/
+build/
+__pycache__/
+*.py[cod]
+
+# Логи и временные файлы
+*.log
+logs/
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Настройки редакторов и IDE
+.vscode/*
+!.vscode/extensions.json
+.idea/
