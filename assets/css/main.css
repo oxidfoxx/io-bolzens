@@ -1764,7 +1764,6 @@ button {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    align-items: center;
     width: 100%;
     border-radius: 0.83em;
     background-color: #FFFFFF;
@@ -3536,6 +3535,10 @@ button {
         font-size: 16px;
     }
 
+    .product-catalog {
+        gap: 50px;
+    }
+
     .product-catalog__category {
         gap: 25px;
     }
@@ -3789,6 +3792,7 @@ button {
 
     .order-list__modal-info-item {
         gap: 8px;
+        width: 100%;
     }
 }
 
