@@ -14,6 +14,7 @@ if (isset($_SESSION['user_id'])) {
     <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="../css/reg.css">
     <script src="../js/reg.js"></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
     <div class="user-form">
@@ -36,6 +37,10 @@ if (isset($_SESSION['user_id'])) {
             <div class="form-group">
                 <input type="password" maxlength="30" id="confirm-password" name="confirm-password" placeholder="Подтвердите пароль" required>
                 <button type="button" class="password-control" onclick="return togglePasswordVisibility(this, 'confirm-password');"></button>
+            </div>
+
+            <div class="form-group">
+                <div class="cf-turnstile" data-sitekey="0x4AAAAAAFQ6RaiRSq4sseDl" data-theme="light" data-size="flexible"></div>
             </div>
 
             <div class="auth-link">

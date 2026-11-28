@@ -1,8 +1,19 @@
 <?php
 session_start();
 require_once 'db.php';
+require_once 'turnstile.php';
+require_once 'email_templates.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    // === ПРОВЕРКА TURNSTILE ===
+    $token = isset($_POST['cf-turnstile-response']) ? $_POST['cf-turnstile-response'] : '';
+    if (!verifyTurnstile($token)) {
+        header('Content-Type: text/html; charset=utf-8');
+        echo "<script>alert('Проверка Cloudflare не пройдена. Попробуйте снова.'); window.history.back();</script>";
+        exit;
+    }
+
     $email = isset($_POST['email']) ? trim($_POST['email']) : '';
     $pass  = isset($_POST['password']) ? $_POST['password'] : '';
 

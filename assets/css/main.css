@@ -2035,6 +2035,10 @@ button {
         gap: 60px;
     }
 
+    .preorder-info {
+        gap: 60px;
+    }
+
 
     /* Gallery Page */
 
@@ -2461,12 +2465,20 @@ button {
         padding-bottom: 80px;
     }
 
+    .sorting__btn {
+        font-size: 20px;
+    }
+
     .product-catalog__category {
         gap: 50px;
     }
 
     .catalog-header__title {
         font-size: 60px;
+    }
+
+    .preorder-info {
+        gap: 50px;
     }
 
     .product-catalog__modal-window {
@@ -2967,6 +2979,10 @@ button {
 
     .catalog-header__title {
         font-size: 40px;
+    }
+
+    .preorder-info {
+        gap: 40px;
     }
 
     .product-catalog {
@@ -3504,12 +3520,20 @@ button {
         font-size: 26px;
     }
 
+    .preorder-info {
+        gap: 25px;
+    }
+
     .preorder-info__content img {
         display: none;
     }
 
     .preorder-info__content p {
         text-align: center;
+    }
+
+    .sorting__btn {
+        font-size: 16px;
     }
 
     .product-catalog__category {

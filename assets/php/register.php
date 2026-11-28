@@ -1,7 +1,18 @@
 <?php
 require_once 'db.php';
+require_once 'turnstile.php';
+require_once 'email_templates.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    // === ПРОВЕРКА TURNSTILE ===
+    $token = isset($_POST['cf-turnstile-response']) ? $_POST['cf-turnstile-response'] : '';
+    if (!verifyTurnstile($token)) {
+        header('Content-Type: text/html; charset=utf-8');
+        echo "<script>alert('Проверка Cloudflare не пройдена. Попробуйте снова.'); window.history.back();</script>";
+        exit;
+    }
+
     $name  = isset($_POST['username']) ? trim($_POST['username']) : '';
     $email = isset($_POST['email']) ? trim($_POST['email']) : '';
     $pass  = isset($_POST['password']) ? $_POST['password'] : '';
@@ -39,28 +50,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // 3. Отправка письма встроенной функцией mail()
         $to = $email;
-        $subject = "Код подтверждения регистрации";
-        
-        $message = "
-        <html>
-        <head>
-            <title>Подтверждение регистрации</title>
-        </head>
-        <body>
-            <h2>Здравствуйте!</h2>
-            <p>Ваш код для подтверждения регистрации на сайте: <b style='font-size: 18px; color: #333;'>{$code}</b></p>
-            <p>Код действителен в течение 15 минут.</p>
-        </body>
-        </html>
-        ";
+        // Кодируем тему в UTF-8 — иначе кириллица в заголовке ломается
+        $subject = "=?UTF-8?B?" . base64_encode("Код подтверждения регистрации") . "?=";
+        $message = emailVerificationTemplate($code, $name);   // шаблон письма
 
-        $headers = "MIME-Version: 1.0" . "\r\n";
-        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-        $headers .= "From: no-reply@" . $_SERVER['HTTP_HOST'] . "\r\n"; 
+        $headers  = "MIME-Version: 1.0\r\n";
+        $headers .= "Content-type: text/html; charset=UTF-8\r\n";
+        $headers .= "From: Golden Croissant <no-reply@" . $_SERVER['HTTP_HOST'] . ">\r\n";
+        $headers .= "Reply-To: no-reply@" . $_SERVER['HTTP_HOST'] . "\r\n";
+        $headers .= "X-Mailer: PHP/" . phpversion();
 
-        // Отправляем письмо
         if (!mail($to, $subject, $message, $headers)) {
-            throw new Exception("Внутренняя ошибка сервера: не удалось отправить Email.");
+            throw new Exception("Внутренняя ошибка сервера: не удалось отправить Email. Проверьте настройки почты.");
         }
 
         // 4. Запоминаем email в сессии для страницы верификации

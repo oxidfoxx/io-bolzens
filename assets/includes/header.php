@@ -7,33 +7,6 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// === ПРОВЕРКА TURNSTILE ===
-$botError = '';
-$needTurnstile = !isset($_SESSION['turnstile_passed']);
-
-if ($needTurnstile) {
-    // Подключаем функцию проверки (путь относительный, зависит от base_path)
-    $turnstilePath = __DIR__ . '/../php/turnstile.php'; // если header в includes/
-    if (file_exists($turnstilePath)) {
-        require_once $turnstilePath;
-    } else {
-        // fallback: если путь другой, попробуйте __DIR__ . '/../../php/turnstile.php'
-        require_once __DIR__ . '/../../php/turnstile.php';
-    }
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cf-turnstile-response'])) {
-        $token = $_POST['cf-turnstile-response'];
-        if (verifyTurnstile($token)) {
-            $_SESSION['turnstile_passed'] = true;
-            // Перезагружаем страницу, чтобы убрать POST
-            header('Location: ' . $_SERVER['REQUEST_URI']);
-            exit;
-        } else {
-            $botError = 'Проверка не пройдена. Попробуйте ещё раз.';
-        }
-    }
-}
-
 // Карта: тип хедера → CSS-класс <header> и заголовок h1
 $headerConfig = [
     'main'    => ['class' => 'main-header',    'title' => 'Мы выпекаем для Вас!'],
@@ -56,30 +29,8 @@ $headerTitle   = $currentHeader['title'];
     <title>Golden Croissant</title>
     <link rel="icon" href="<?= $base_path ?>images/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="<?= $base_path ?>css/main.css">
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
-
-    <?php if ($needTurnstile): ?>
-        <!-- ОВЕРЛЕЙ С КАПЧЕЙ -->
-        <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(245, 239, 231, 0.98); z-index: 9999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
-            <div style="background: #fff; padding: 40px; border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 400px;">
-                <h2 style="margin-top: 0; color: #773A25;">Подтвердите, что вы человек</h2>
-                <p style="color: #666; margin-bottom: 20px;">Это необходимо для защиты сайта от спама</p>
-                
-                <?php if ($botError): ?>
-                    <p style="color: red; font-size: 14px; margin-bottom: 15px;"><?php echo $botError; ?></p>
-                <?php endif; ?>
-
-                <form method="POST">
-                    <!-- Виджет Cloudflare -->
-                    <div class="cf-turnstile" data-sitekey="0x4AAAAAAFQ6RaiRSq4sseDl" data-theme="light" style="margin-bottom: 20px; display: flex; justify-content: center;"></div>
-                    <button type="submit" class="main-btn-grey" style="width: 100%; font-size: 18px;">Продолжить</button>
-                </form>
-            </div>
-        </div>
-    <?php endif; ?>
-
     <header class="<?= $headerClass ?>">
 
     <?php if ($header_type === 'main' || $header_type === 'gallery' || $header_type === 'about'): ?>
